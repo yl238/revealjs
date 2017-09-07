@@ -61,26 +61,39 @@
 			<div class="slides">
 				<section>
 					<h1>GeoAuth</h1>
-                    <h3>Payment Authentication Service Powered by Sensewhere</h3>
-                    <p><small>Produced by Sun, Omar, Ivo, and Sue</small></p>
+                    <h3>Mobile Payment Authentication Service </h3>
+                    <h3>Powered by Sensewhere</h3>
+                    <p><small>Sun Rongze, Omar Khurshid, Ivo Dimitrov, and Sue Liu</small></p>
 				</section>
+                <section>
+                <section>
+                    <h2>Growth of Mobile transactions</h2>
+                    <p><img width="800" src="figures/Mobile-Retail-Payments.jpg"></p>
+                </section>
+                <section>
+                    <h2>Mobile Transaction Fraud</h2>
 
+                    <p>Mobile Geolocation is now a popular tool for fraud prevention</p>
+                </section>
+                </section>
 				<section>
-					<h2>What is GeoAuth?</h2>
-					<p>
-						GeoAuth is Sensewhere's unique transaction fraud detection service.
-                    </p>
+                    <section>
+                        <h2>GeoAuth</h2>
+                        <p>
+                            GeoAuth is Sensewhere's unique transaction fraud detection service.
+                        </p>
+                    </section>
+                    <section>
+                        <img src="figures/Geoauth_diagram.png">
+                    </section>
 				</section>
 
 				<!-- Example of nested vertical slides -->
-				<section>
-                    <h2>How does it work?</h2>
-                    <p>GeoAuth validates a transaction by matching its WiFi fingerprint against the WiFi profiles of vendors.</p>
-				</section>
+
 
 				<section>
                     <section>
-                        <h2>WiFi Signatures</h2>
+                        <h2>Matching Wi-Fi Fingerprints</h2>
                     </section>
 					<section>
                         <h2>Phone</h2>
@@ -107,42 +120,23 @@
                         <h2>Vendor</h2>
                         <p>Likewise, each vendor has an unique list of WiFi Access Points.</p>
                         <a href="#" class="navigate-down">
-                            <img height="350" data-src="figures/vendor_waps.png" alt="Vendor">
+                            <span><img height="350" data-src="figures/vendor_waps.png" alt="Vendor"></span>
+                            <span class="fragment"><img width="300" src="figures/wifi_names.png" alt="wifi_names"></span>
                         </a>
                     </section>
-                    <section>
-                        <h2>Do their signatures match?</h2>
-                        If the transaction is made at the vendor, the phone should have picked up some of the MAC addresses from the Vendor WiFi Access Points.
-                        <p><span><img width="50" data-src="figures/manwithphone.jpg" alt="manwithphone"></span>
-                        <span>
-                            <img width="300" src="figures/wifi_names.png" alt="wifi_names">
-                        </span></p>
-                    </section>
 				</section>
-
-
                 <section>
                     <section>
-                        <h2>Algorithm</h2>
+                        <h2>Under the hood</h2>
                     </section>
                     <section>
-                    <h2>Measuring similarity</h2>
-                    <p>
-                        How similar is the list of MAC addresses picked up by the transaction phone to the list of vendor MACs?
-                    </p>
-                    <p>
-                        <img width="600" data-src="figures/venn_mac_id.png" alt="venn">
-                    </p>
-                    </section>
-                    <section>
-                        <h2>Jaccard Similarity</h2>
-                        <p>Given two sets A and B, the Jaccard index</p>
-                        \[\begin{aligned}
-                        J(A, B) = \frac{|A \cap B |}{|A \cup B|}
-                        \end{aligned}, \]
-                        <p>is a common measure of similarity in data mining.</p>
-                        <p class="fragment">In the previous case:<br> A = Transaction, B = Vendor, Jaccard Similarity = 7/15. </p>
-                        <p class="fragment"><b>Not very alike!</b></p>
+                        <h2>Measuring similarity</h2>
+                        <p>
+                            How similar is the list of MAC addresses picked up by the transaction phone to the list of vendor MACs?
+                        </p>
+                        <p>
+                            <img width="600" data-src="figures/venn_mac_id.png" alt="venn">
+                        </p>
                     </section>
                     <section>
                         <h2>GeoAuth Similarity</h2>
@@ -152,41 +146,23 @@
                         \mathbf{GeoAuthSim}(A, B) = \frac{|A \cap B|}{\min(|A|, |B|)}
                         \end{aligned}\]
                         </p>
-                        <p class="fragment">Now GeoAuth Similarity = 7/10. </p>
+                        <p class="fragment">In the above example, GeoAuth Similarity = 7/10 </p>
+                        <p class="fragment"><b>Transaction and vendor fingerprints are very similar!</b></p>
                     </section>
-                    <section data-markdown="">
-                       <textarea data-template>
-                           ## Code
-                           ```
-                           T = transaction
-                           output = {}
-                           for vendor V in Vendors:
-                             similarity =  GeoAuthSim(T.macIDs, V.macIDs)
-                             output[V.id] = similarity
-                           return output
-                           ```
-                       </textarea>
+                    <section>
+                        <h2>Calculating similarity</h2>
+                        <p><img width="800" src="figures/similarity_loop.png"></p>
                     </section>
                 </section>
+
+
                 <section>
                     <section>
-                    <h2>Architecture</h2>
-                    </section>
-                <section>
                     <h2>Web Service</h2>
                     <img width="800" data-src="figures/geoauth_schematic.png" alt="schematic"/>
-                </section>
-                <section>
-                    <h2>Transactions</h2>
-                    <h3>GeoPay</h3>
-                    <div style="position: relative" width="200">
-                        <img class="fragment fade-out" data-fragment-index="0" width="200" src="figures/geopay1.png"/>
-                        <img class="fragment fade-left" data-fragment-index="0" width="200" style="position: absolute; top: 0; left: 380px;"
-                        data-transition-speed="slow" data-src="figures/geopay2.png"/>
-                    </div>
-                    <p><small>Courtesy of Sun</small></p>
-                </section>
-                <section data-transition="zoom-in fade-out" data-transition-speed="fast">
+                    </section>
+
+                    <section data-transition="zoom-in fade-out" data-transition-speed="fast">
                     <div style="position: relative" width="800">
                         <img class="fragment geoauth fade-out" data-fragment-index="0"
                              width="800" data-src="figures/geoauth_schematic_step1.png" alt="schematic1" />
@@ -199,15 +175,44 @@
                         <img class="fragment geoauth" data-fragment-index="3" data-src="figures/geoauth_schematic_step4.png"
                              width="800" style="position: absolute; top: 0; left: 79px;">
                     </div>
+                    </section>
+                    <section data-transition="none" data-transition-speed="fast">
+                        <h2>Update the vendor database</h2>
+                            <img src="figures/update_vendor.png" width="700">
+                    </section>
                 </section>
-                <section data-transition="convex">
-                    <img width="800" data-src="figures/geoauth_schematic.png" alt="schematic"/>
-                </section>
+                    <section>
+                        <section>
+                            <h2>Demo</h2>
+                        </section>
+                        <section>
+                        <h2>Transaction App</h2>
+                        <h3>GeoPay</h3>
+                        <!--<div style="position: relative" width="200">-->
+                            <p><img width="200" src="figures/geopay1.png"/>
+                            <!--<img class="fragment fade-left" data-fragment-index="0" width="200" style="position: absolute; top: 0; left: 380px;"-->
+                                 <!--data-transition-speed="slow" data-src="figures/geopay2.png"/>-->
+                                <img class="fragment fade-up" data-fragment-index="1" width="200" src="figures/geopay2.png"/></p>
+                        <!--</div>-->
+                        <p><small>Courtesy of Sun</small></p>
+                    </section>
+                    <section>
+                        <h2>Sensewhere Sandbox</h2>
+                        <iframe frameborder=0 width=100% height=586 marginheight=0 marginwidth=0 scrolling=no
+                                src="http://sw-edi.sensewhere.com/sw-sandbox-geoauth/payment-gateway/statuspage.html"></iframe>
+                    </section>
+                    <section>
+                        <h2>Simulated payment gateway</h2>
+                        <img src="figures/decision_tree.png" width="650">
+                    </section>
+                        <section>
+                            <h2>Sensewhere Sandbox</h2>
+                            <iframe frameborder=0 width=100% height=586 marginheight=0 marginwidth=0 scrolling=no
+                                    src="http://sw-edi.sensewhere.com/sw-sandbox-geoauth/payment-gateway/statuspage.html"></iframe>
+                        </section>
                 </section>
                 <section>
-                    <h2>Demo</h2>
-                    <iframe frameborder=0 width=95% height=586 marginheight=0 marginwidth=0 scrolling=no
-                            src="http://sw-edi.sensewhere.com/sw-sandbox-geoauth/payment-gateway/statuspage.html"></iframe>
+                    <h2>Any questions?</h2>
                 </section>
 
 			</div>
